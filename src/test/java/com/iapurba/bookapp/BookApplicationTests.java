@@ -1,4 +1,4 @@
-package com.iapurba.lms_book_app;
+package com.iapurba.bookapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
