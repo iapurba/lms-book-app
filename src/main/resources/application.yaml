@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: lms-book-app
+  datasource:
+    url: jdbc:mysql://localhost:3306/book_db
+    username: root
+    password: CSe164011
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
