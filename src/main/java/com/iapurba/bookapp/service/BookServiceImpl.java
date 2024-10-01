@@ -3,12 +3,13 @@ package com.iapurba.bookapp.service;
 import com.iapurba.bookapp.dto.AuthorDto;
 import com.iapurba.bookapp.dto.BookDto;
 import com.iapurba.bookapp.exception.AuthorNotFoundException;
+import com.iapurba.bookapp.exception.BookNotFoundException;
 import com.iapurba.bookapp.exception.DuplicateBookException;
 import com.iapurba.bookapp.model.entity.Author;
 import com.iapurba.bookapp.model.entity.Book;
 import com.iapurba.bookapp.repository.AuthorRepository;
 import com.iapurba.bookapp.repository.BookRepository;
-import com.iapurba.bookapp.util.ErrorConstant;
+import com.iapurba.bookapp.util.ErrorConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public Book createBook(BookDto bookDto) throws Exception {
         if (bookRepository.existsByIsbn(bookDto.getIsbn())) {
-            throw new DuplicateBookException(ErrorConstant.DUPLICATE_BOOK_ERROR_MESSAGE);
+            throw new DuplicateBookException(ErrorConstants.DUPLICATE_BOOK_ERROR_MESSAGE);
         }
         return saveBook(bookDto, null);
     }
@@ -35,9 +36,24 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public Book updateBook(String isbn, BookDto bookDto) throws Exception {
         Book existingBook = bookRepository.findByIsbn(isbn)
-                .orElseThrow(() -> new Exception("Book with ISBN " + isbn + " not found"));
+                .orElseThrow(() -> new BookNotFoundException("Book with ISBN " + isbn + " not found"));
 
         return saveBook(bookDto, existingBook);
+    }
+
+    @Transactional(readOnly = true)
+    public Book getBookByIsbn(String isbn) throws Exception {
+        return bookRepository.findByIsbn(isbn)
+                .orElseThrow(() -> new BookNotFoundException("Book with ISBN " + isbn + " not found"));
+    }
+
+    @Transactional
+    public void deleteBookByIsbn(String isbn) throws Exception {
+        if (bookRepository.existsByIsbn(isbn)) {
+            bookRepository.deleteByIsbn(isbn);
+        } else {
+            throw new BookNotFoundException("Book with ISBN " + isbn + " not found");
+        }
     }
 
     private Book saveBook(BookDto bookDto, Book existingBook) throws Exception {
@@ -69,10 +85,5 @@ public class BookServiceImpl implements BookService {
         book.setAuthors(authors);
 
         return bookRepository.save(book);
-    }
-
-    public Book getBookById(Long id) throws Exception {
-        return bookRepository.findById(id)
-                .orElseThrow(() -> new Exception("Book with ID " + id + "not found"));
     }
 }

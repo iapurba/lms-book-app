@@ -18,36 +18,39 @@ public class BookController {
     BookService bookService;
 
     @PostMapping
-    public ResponseEntity<Book> createBook(@Valid @RequestBody BookDto bookDto) throws Exception {
+    public ResponseEntity<ResponseWrapper<Book>> createBook(
+            @Valid @RequestBody BookDto bookDto) throws Exception {
             Book book = bookService.createBook(bookDto);
-            return ResponseEntity.ok(book);
+            return ResponseEntity.ok(new ResponseWrapper<>(
+                    HttpStatus.OK.value(), "Book created successfully", book
+            ));
     };
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<Book>> getBookById(@PathVariable Long id) {
-        try {
-            Book book = bookService.getBookById(id);
-            return ResponseEntity.ok(
-                    new ResponseWrapper<>(
-                            HttpStatus.OK.value(),
-                            "Book retrieved successfully",
-                            book
-                    )
+    @GetMapping("/isbn/{isbn}")
+    public ResponseEntity<ResponseWrapper<Book>> getBookById(
+            @PathVariable String isbn) throws Exception {
+            Book book = bookService.getBookByIsbn(isbn);
+            ResponseWrapper<Book> response = new ResponseWrapper<>(
+                    HttpStatus.OK.value(), "Book retrieved successfully", book
             );
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ResponseWrapper<>(
-                            HttpStatus.NOT_FOUND.value(),
-                            e.getMessage(),
-                            null
-                    ));
-        }
-    }
+            return ResponseEntity.ok(response);
+    };
 
-    ;
+    @PutMapping("/isbn/{isbn}")
+    public ResponseEntity<ResponseWrapper<Book>> updateBook(
+            @PathVariable String isbn,
+            @Valid @RequestBody BookDto bookDto
+    ) throws Exception {
+        Book updatedBook = bookService.updateBook(isbn, bookDto);
+        return ResponseEntity.ok(new ResponseWrapper<>(
+                HttpStatus.OK.value(), "Book Updated successfully", updatedBook));
+    };
 
-    @DeleteMapping("/{id}")
-    public void deleteBookById(@PathVariable Long id) {
-
+    @DeleteMapping("/isbn/{isbn}")
+    public ResponseEntity<ResponseWrapper<?>> deleteBookById(
+            @PathVariable String isbn) throws Exception {
+        bookService.deleteBookByIsbn(isbn);
+        return ResponseEntity.ok(new ResponseWrapper<>(
+                HttpStatus.OK.value(), "Book deleted successfully", null));
     }
 }

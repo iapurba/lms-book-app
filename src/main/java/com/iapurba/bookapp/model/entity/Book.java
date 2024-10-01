@@ -38,4 +38,7 @@ public class Book implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
     private List<Author> authors;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private List<BookItem> bookItems;
 }
