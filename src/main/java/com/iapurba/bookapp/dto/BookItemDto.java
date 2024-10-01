@@ -1,25 +1,23 @@
-package com.iapurba.bookapp.model.entity;
+package com.iapurba.bookapp.dto;
 
 import com.iapurba.bookapp.model.enums.BookFormat;
 import com.iapurba.bookapp.model.enums.BookStatus;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookItem implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BookItemDto {
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    @NotNull(message = "Book ID is mandatory")
+    private Long bookId;
 
     private String barcode;
     private boolean isReferenceOnly;
@@ -27,10 +25,9 @@ public class BookItem implements Serializable {
     private Date dueDate;
     private double price;
 
-    @Enumerated(EnumType.STRING)
     private BookFormat bookFormat;
 
-    @Enumerated(EnumType.STRING)
+    @NotBlank(message = "Book status is mandatory")
     private BookStatus bookStatus;
 
     private Date purchaseDate;
