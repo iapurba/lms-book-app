@@ -1,6 +1,7 @@
 package com.iapurba.bookapp.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
+@AllArgsConstructor
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +29,18 @@ public class Book implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
     private String publisher;
+
+    @Column(nullable = false)
     private int numOfPages;
+
+    @Column(nullable = false)
     private String language;
 
     @ManyToMany
-    @JoinTable(name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id"),
+    @JoinTable(name = "books_authors",
+            joinColumns = @JoinColumn(name = "book_isbn", referencedColumnName = "isbn"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
     private List<Author> authors;

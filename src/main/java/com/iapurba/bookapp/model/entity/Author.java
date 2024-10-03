@@ -1,14 +1,16 @@
 package com.iapurba.bookapp.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Data
 @Entity
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Author implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,5 +20,5 @@ public class Author implements Serializable {
     private String name;
 
     @Column(columnDefinition = "TEXT")
-    private  String bio;
+    private  String biography;
 }
