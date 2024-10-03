@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BookDto {
     private Long id;
+
     @NotBlank(message = "ISBN is mandatory")
     private String isbn;
 

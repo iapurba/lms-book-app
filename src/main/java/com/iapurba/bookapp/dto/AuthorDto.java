@@ -16,5 +16,5 @@ public class AuthorDto {
     @NotBlank(message = "Author name is mandatory")
     private String name;
 
-    private String bio;
+    private String biography;
 }

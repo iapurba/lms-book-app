@@ -67,7 +67,7 @@ public class BookServiceImpl implements BookService {
             } else {
                 author = new Author();
                 author.setName(authorDto.getName());
-                author.setBio(authorDto.getBio());
+                author.setBiography(authorDto.getBiography());
                 author = authorRepository.save(author);
             }
             authors.add(author);

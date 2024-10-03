@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "authors")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Author implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

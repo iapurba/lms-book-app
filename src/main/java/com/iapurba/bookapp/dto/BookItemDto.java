@@ -8,7 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -21,10 +22,9 @@ public class BookItemDto {
     private Long bookId;
 
     private String barcode;
-    private boolean isReferenceOnly;
-    private Date borrowed;
-    private Date dueDate;
-    private double price;
+    private LocalDate borrowed;
+    private LocalDate dueDate;
+    private BigDecimal price;
 
     @NotNull(message = "Book format is mandatory")
     private BookFormat bookFormat;
@@ -32,8 +32,8 @@ public class BookItemDto {
     @NotNull(message = "Book status is mandatory")
     private BookStatus bookStatus;
 
-    private Date purchaseDate;
-    private Date publicationDate;
+    private LocalDate purchaseDate;
+    private LocalDate publicationDate;
 
     private Long rackId;
 }

@@ -34,7 +34,6 @@ public class BookItemServiceImpl implements BookItemService {
 
         bookItem.setBook(book);
         bookItem.setBarcode(bookItemDto.getBarcode());
-        bookItem.setReferenceOnly(bookItemDto.isReferenceOnly());
         bookItem.setBorrowed(bookItemDto.getBorrowed());
         bookItem.setDueDate(bookItemDto.getDueDate());
         bookItem.setPrice(bookItemDto.getPrice());

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 public class BookServiceImplTest {
 
     @InjectMocks
-    private BookServiceImpl bookService;
+    private BookService bookService;
 
     @Mock
     private BookRepository bookRepository;

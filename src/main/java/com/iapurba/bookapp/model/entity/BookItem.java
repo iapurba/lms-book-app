@@ -6,12 +6,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
+@Table(name = "book_items")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class BookItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +24,9 @@ public class BookItem implements Serializable {
     private Book book;
 
     private String barcode;
-    private boolean isReferenceOnly;
-    private Date borrowed;
-    private Date dueDate;
-    private double price;
+    private LocalDate borrowed;
+    private LocalDate dueDate;
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     private BookFormat bookFormat;
@@ -33,8 +34,8 @@ public class BookItem implements Serializable {
     @Enumerated(EnumType.STRING)
     private BookStatus bookStatus;
 
-    private Date purchaseDate;
-    private Date publicationDate;
+    private LocalDate purchaseDate;
+    private LocalDate publicationDate;
 
     private Long rackId;
 }
