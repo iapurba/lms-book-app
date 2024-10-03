@@ -45,13 +45,13 @@ public class BookItemServiceImpl implements BookItemService {
         bookItem.setRackId(bookItemDto.getRackId());
 
         return bookItemRepository.save(bookItem);
-    };
+    }
 
     @Transactional
     public BookItem getBookItemById(Long id) throws Exception {
         return bookItemRepository.findById(id)
                 .orElseThrow(() -> new BookItemNotFoundException("BookItem with id: " + id + " not found"));
-    };
+    }
 
     @Transactional
     public void deleteBookItemById(Long id) throws Exception {
@@ -60,5 +60,5 @@ public class BookItemServiceImpl implements BookItemService {
         } else {
             throw new BookItemNotFoundException("BookItem with id: " + id + " not found");
         }
-    };
+    }
 }

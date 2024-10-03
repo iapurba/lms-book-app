@@ -27,7 +27,7 @@ public class BookController {
     };
 
     @GetMapping("/isbn/{isbn}")
-    public ResponseEntity<ResponseWrapper<Book>> getBookById(
+    public ResponseEntity<ResponseWrapper<Book>> getBookByIsbn(
             @PathVariable String isbn) throws Exception {
             Book book = bookService.getBookByIsbn(isbn);
             ResponseWrapper<Book> response = new ResponseWrapper<>(
@@ -43,11 +43,11 @@ public class BookController {
     ) throws Exception {
         Book updatedBook = bookService.updateBook(isbn, bookDto);
         return ResponseEntity.ok(new ResponseWrapper<>(
-                HttpStatus.OK.value(), "Book Updated successfully", updatedBook));
+                HttpStatus.OK.value(), "Book updated successfully", updatedBook));
     };
 
     @DeleteMapping("/isbn/{isbn}")
-    public ResponseEntity<ResponseWrapper<?>> deleteBookById(
+    public ResponseEntity<ResponseWrapper<?>> deleteBookByIsbn(
             @PathVariable String isbn) throws Exception {
         bookService.deleteBookByIsbn(isbn);
         return ResponseEntity.ok(new ResponseWrapper<>(
