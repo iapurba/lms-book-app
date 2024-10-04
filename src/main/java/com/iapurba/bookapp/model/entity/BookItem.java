@@ -1,5 +1,6 @@
 package com.iapurba.bookapp.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.iapurba.bookapp.model.enums.BookFormat;
 import com.iapurba.bookapp.model.enums.BookStatus;
 import jakarta.persistence.*;
@@ -8,7 +9,6 @@ import lombok.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "book_items")
@@ -21,6 +21,7 @@ public class BookItem implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
+    @JsonBackReference
     private Book book;
 
     private String barcode;

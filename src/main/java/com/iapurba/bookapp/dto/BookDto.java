@@ -3,10 +3,7 @@ package com.iapurba.bookapp.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -34,6 +31,7 @@ public class BookDto {
     @NotNull(message = "Number of pages is mandatory")
     private int numOfPages;
 
+    @NotBlank(message = "Language is mandatory")
     private String language;
 
     @Size(min = 1, message = "At least one author must be provided")

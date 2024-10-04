@@ -1,5 +1,6 @@
 package com.iapurba.bookapp.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,7 @@ import java.util.List;
 @Table(name = "books")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +48,6 @@ public class Book implements Serializable {
     private List<Author> authors;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<BookItem> bookItems;
 }

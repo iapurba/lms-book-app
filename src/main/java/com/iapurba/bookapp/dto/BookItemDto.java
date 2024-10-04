@@ -3,10 +3,7 @@ package com.iapurba.bookapp.dto;
 import com.iapurba.bookapp.model.enums.BookFormat;
 import com.iapurba.bookapp.model.enums.BookStatus;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

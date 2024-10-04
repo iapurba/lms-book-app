@@ -4,8 +4,6 @@ import com.iapurba.bookapp.model.entity.BookItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface BookItemRepository extends JpaRepository<BookItem, Long> {
 //    List<BookItem> findByISBN = (String bookISBN);

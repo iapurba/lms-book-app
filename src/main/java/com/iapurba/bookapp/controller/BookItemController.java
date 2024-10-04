@@ -21,7 +21,7 @@ public class BookItemController {
     public ResponseEntity<ResponseWrapper<BookItem>> createUpdateBookItem(
             @Valid @RequestBody BookItemDto bookItemDto) throws Exception {
         BookItem bookItem = bookItemService.createUpdateBookItem(bookItemDto);
-        String message = (bookItemDto.getId() != null)
+        String message = (bookItemDto.getId() == null)
                 ? "BookItem created successfully"
                 : "BookItem updated successfully";
         return ResponseEntity.ok(
@@ -38,7 +38,7 @@ public class BookItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<?>> deleteBookById(
+    public ResponseEntity<ResponseWrapper<?>> deleteBookItemById(
             @PathVariable Long id) throws Exception {
         bookItemService.deleteBookItemById(id);
         return ResponseEntity.ok(new ResponseWrapper<>(
