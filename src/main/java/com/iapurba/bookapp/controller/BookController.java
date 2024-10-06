@@ -1,7 +1,6 @@
 package com.iapurba.bookapp.controller;
 
 import com.iapurba.bookapp.dto.BookDto;
-import com.iapurba.bookapp.model.entity.Book;
 import com.iapurba.bookapp.service.BookService;
 import com.iapurba.bookapp.util.ResponseWrapper;
 import jakarta.validation.Valid;
@@ -24,7 +23,7 @@ public class BookController {
             return ResponseEntity.ok(new ResponseWrapper<>(
                     HttpStatus.OK.value(), "Book created successfully", book
             ));
-    };
+    }
 
     @GetMapping("/isbn/{isbn}")
     public ResponseEntity<ResponseWrapper<BookDto>> getBookByIsbn(
@@ -34,7 +33,7 @@ public class BookController {
                     HttpStatus.OK.value(), "Book retrieved successfully", book
             );
             return ResponseEntity.ok(response);
-    };
+    }
 
     @PutMapping("/isbn/{isbn}")
     public ResponseEntity<ResponseWrapper<BookDto>> updateBook(
@@ -44,7 +43,7 @@ public class BookController {
         BookDto updatedBook = bookService.updateBook(isbn, bookDto);
         return ResponseEntity.ok(new ResponseWrapper<>(
                 HttpStatus.OK.value(), "Book updated successfully", updatedBook));
-    };
+    }
 
     @DeleteMapping("/isbn/{isbn}")
     public ResponseEntity<ResponseWrapper<?>> deleteBookByIsbn(

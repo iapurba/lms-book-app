@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BookMapper implements Mapper<Book, BookDto> {
+
     @Autowired
     private AuthorMapper authorMapper;
 
