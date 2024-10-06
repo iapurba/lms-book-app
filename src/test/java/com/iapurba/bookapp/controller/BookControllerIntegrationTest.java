@@ -4,7 +4,6 @@ package com.iapurba.bookapp.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iapurba.bookapp.dto.AuthorDto;
 import com.iapurba.bookapp.dto.BookDto;
-import com.iapurba.bookapp.model.entity.Book;
 import com.iapurba.bookapp.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,15 +34,11 @@ public class BookControllerIntegrationTest {
     @MockBean
     private BookService bookService;
 
-    private Book book;
     private BookDto bookDto;
     private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp() {
-        book = new Book();
-        book.setIsbn("978-0596009205");
-        book.setTitle("Head First Java");
 
         List<AuthorDto> authors = new ArrayList<>();
         authors.add(new AuthorDto(1L, "Kathy Sierra", null));
@@ -64,7 +59,7 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void createBookTest() throws Exception {
-        when(bookService.createBook(any(BookDto.class))).thenReturn(book);
+        when(bookService.createBook(any(BookDto.class))).thenReturn(bookDto);
 
         mockMvc.perform(post("/api/books")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -79,7 +74,7 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void getBookByIsbnTest() throws Exception {
-        when(bookService.getBookByIsbn(anyString())).thenReturn(book);
+        when(bookService.getBookByIsbn(anyString())).thenReturn(bookDto);
 
         mockMvc.perform(get("/api/books/isbn/978-0596009205")
                         .contentType(MediaType.APPLICATION_JSON))

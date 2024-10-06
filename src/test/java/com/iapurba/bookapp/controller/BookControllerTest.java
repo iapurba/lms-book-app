@@ -2,7 +2,6 @@ package com.iapurba.bookapp.controller;
 
 import com.iapurba.bookapp.dto.AuthorDto;
 import com.iapurba.bookapp.dto.BookDto;
-import com.iapurba.bookapp.model.entity.Book;
 import com.iapurba.bookapp.service.BookService;
 import com.iapurba.bookapp.util.ResponseWrapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,14 +31,10 @@ public class BookControllerTest {
     @Mock
     private BookService bookService;
 
-    private Book book;
     private BookDto bookDto;
 
     @BeforeEach
     public void setUp() {
-        book = new Book();
-        book.setIsbn("978-0596009205");
-        book.setTitle("Head First Java");
 
         List<AuthorDto> authors = new ArrayList<>();
         authors.add(new AuthorDto(1L, "Kathy Sierra", null));
@@ -58,37 +53,37 @@ public class BookControllerTest {
 
     @Test
     public void createBookTest() throws Exception {
-        when(bookService.createBook(any(BookDto.class))).thenReturn(book);
-        ResponseEntity<ResponseWrapper<Book>> response = bookController.createBook(bookDto);
+        when(bookService.createBook(any(BookDto.class))).thenReturn(bookDto);
+        ResponseEntity<ResponseWrapper<BookDto>> response = bookController.createBook(bookDto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Book created successfully", Objects.requireNonNull(response.getBody()).getMessage());
-        assertEquals(book, response.getBody().getData());
+        assertEquals(bookDto, response.getBody().getData());
 
         verify(bookService, times(1)).createBook(any(BookDto.class));
     }
 
     @Test
     public void getBookByIsbnTest() throws Exception {
-        when(bookService.getBookByIsbn("978-0596009205")).thenReturn(book);
-        ResponseEntity<ResponseWrapper<Book>> response = bookController.getBookByIsbn("978-0596009205");
+        when(bookService.getBookByIsbn("978-0596009205")).thenReturn(bookDto);
+        ResponseEntity<ResponseWrapper<BookDto>> response = bookController.getBookByIsbn("978-0596009205");
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Book retrieved successfully", Objects.requireNonNull(response.getBody()).getMessage());
         assertEquals("978-0596009205", response.getBody().getData().getIsbn());
-        assertEquals(book, response.getBody().getData());
+        assertEquals(bookDto, response.getBody().getData());
 
         verify(bookService, times(1)).getBookByIsbn("978-0596009205");
     }
 
     @Test
     public void updateBookTest() throws Exception {
-        when(bookService.updateBook(anyString(), any(BookDto.class))).thenReturn(book);
-        ResponseEntity<ResponseWrapper<Book>> response = bookController.updateBook("978-0596009205", bookDto);
+        when(bookService.updateBook(anyString(), any(BookDto.class))).thenReturn(bookDto);
+        ResponseEntity<ResponseWrapper<BookDto>> response = bookController.updateBook("978-0596009205", bookDto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Book updated successfully", Objects.requireNonNull(response.getBody()).getMessage());
-        assertEquals(book, response.getBody().getData());
+        assertEquals(bookDto, response.getBody().getData());
 
         verify(bookService, times(1)).updateBook(anyString(), any(BookDto.class));
     }
