@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookItemDto {
+public class BookItemRequestDto {
     private Long id;
 
     @NotNull(message = "Book ID is mandatory")
@@ -21,6 +21,8 @@ public class BookItemDto {
     private String barcode;
     private LocalDate borrowed;
     private LocalDate dueDate;
+
+    @NotNull(message = "Book ID is mandatory")
     private BigDecimal price;
 
     @NotNull(message = "Book format is mandatory")
