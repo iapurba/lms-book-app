@@ -5,6 +5,7 @@ import com.iapurba.bookapp.dto.BookDto;
 import com.iapurba.bookapp.exception.AuthorNotFoundException;
 import com.iapurba.bookapp.exception.BookNotFoundException;
 import com.iapurba.bookapp.exception.DuplicateBookException;
+import com.iapurba.bookapp.mapper.BookMapper;
 import com.iapurba.bookapp.model.entity.Author;
 import com.iapurba.bookapp.model.entity.Book;
 import com.iapurba.bookapp.repository.AuthorRepository;
@@ -25,8 +26,11 @@ public class BookServiceImpl implements BookService {
     @Autowired
     AuthorRepository authorRepository;
 
+    @Autowired
+    BookMapper bookMapper;
+
     @Transactional
-    public Book createBook(BookDto bookDto) throws Exception {
+    public BookDto createBook(BookDto bookDto) throws Exception {
         if (bookRepository.existsByIsbn(bookDto.getIsbn())) {
             throw new DuplicateBookException(ErrorConstants.DUPLICATE_BOOK_ERROR_MESSAGE);
         }
@@ -34,7 +38,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Transactional
-    public Book updateBook(String isbn, BookDto bookDto) throws Exception {
+    public BookDto updateBook(String isbn, BookDto bookDto) throws Exception {
         Book existingBook = bookRepository.findByIsbn(isbn)
                 .orElseThrow(() -> new BookNotFoundException("Book with ISBN " + isbn + " not found"));
 
@@ -42,9 +46,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Transactional(readOnly = true)
-    public Book getBookByIsbn(String isbn) throws Exception {
-        return bookRepository.findByIsbn(isbn)
+    public BookDto getBookByIsbn(String isbn) throws Exception {
+        Book book = bookRepository.findByIsbn(isbn)
                 .orElseThrow(() -> new BookNotFoundException("Book with ISBN " + isbn + " not found"));
+
+        return bookMapper.toDto(book);
     }
 
     @Transactional
@@ -56,7 +62,7 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    private Book saveBook(BookDto bookDto, Book existingBook) throws Exception {
+    private BookDto saveBook(BookDto bookDto, Book existingBook) throws Exception {
         List<Author> authors = new ArrayList<>();
         for (AuthorDto authorDto : bookDto.getAuthors()) {
             Author author;
@@ -84,6 +90,8 @@ public class BookServiceImpl implements BookService {
         book.setNumOfPages(bookDto.getNumOfPages());
         book.setAuthors(authors);
 
-        return bookRepository.save(book);
+        book = bookRepository.save(book);
+
+        return bookMapper.toDto(book);
     }
 }

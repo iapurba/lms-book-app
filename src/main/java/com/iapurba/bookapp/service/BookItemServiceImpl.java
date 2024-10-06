@@ -1,7 +1,10 @@
 package com.iapurba.bookapp.service;
 
-import com.iapurba.bookapp.dto.BookItemDto;
+import com.iapurba.bookapp.dto.BookItemRequestDto;
+import com.iapurba.bookapp.dto.BookItemResponseDto;
 import com.iapurba.bookapp.exception.BookItemNotFoundException;
+import com.iapurba.bookapp.exception.BookNotFoundException;
+import com.iapurba.bookapp.mapper.BookItemMapper;
 import com.iapurba.bookapp.model.entity.Book;
 import com.iapurba.bookapp.model.entity.BookItem;
 import com.iapurba.bookapp.repository.BookItemRepository;
@@ -19,18 +22,21 @@ public class BookItemServiceImpl implements BookItemService {
     @Autowired
     BookRepository bookRepository;
 
+    @Autowired
+    BookItemMapper bookItemMapper;
+
     @Transactional
-    public BookItem createUpdateBookItem(BookItemDto bookItemDto) throws Exception {
+    public BookItemResponseDto createUpdateBookItem(BookItemRequestDto bookItemDto) throws Exception {
         BookItem bookItem;
         if (bookItemDto.getId() != null) {
             bookItem = bookItemRepository.findById(bookItemDto.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("BookItem not found with id: " + bookItemDto.getId()));
+                    .orElseThrow(() -> new BookItemNotFoundException("BookItem not found with id: " + bookItemDto.getId()));
         } else {
             bookItem = new BookItem();
         }
 
         Book book = bookRepository.findById(bookItemDto.getBookId())
-                .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + bookItemDto.getBookId()));
+                .orElseThrow(() -> new BookNotFoundException("Book not found with id: " + bookItemDto.getBookId()));
 
         bookItem.setBook(book);
         bookItem.setBarcode(bookItemDto.getBarcode());
@@ -43,13 +49,17 @@ public class BookItemServiceImpl implements BookItemService {
         bookItem.setPublicationDate(bookItemDto.getPublicationDate());
         bookItem.setRackId(bookItemDto.getRackId());
 
-        return bookItemRepository.save(bookItem);
+        bookItem = bookItemRepository.save(bookItem);
+
+        return bookItemMapper.toResponseDto(bookItem);
     }
 
     @Transactional
-    public BookItem getBookItemById(Long id) throws Exception {
-        return bookItemRepository.findById(id)
+    public BookItemResponseDto getBookItemById(Long id) throws Exception {
+        BookItem bookItem = bookItemRepository.findById(id)
                 .orElseThrow(() -> new BookItemNotFoundException("BookItem with id: " + id + " not found"));
+
+        return bookItemMapper.toResponseDto(bookItem);
     }
 
     @Transactional
