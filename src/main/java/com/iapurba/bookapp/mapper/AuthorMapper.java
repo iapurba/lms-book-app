@@ -2,12 +2,15 @@ package com.iapurba.bookapp.mapper;
 
 import com.iapurba.bookapp.dto.AuthorDto;
 import com.iapurba.bookapp.model.entity.Author;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AuthorMapper {
+@Component
+public class AuthorMapper implements Mapper<Author, AuthorDto> {
 
+    @Override
     public AuthorDto toDto(Author author) {
         if (author == null) return null;
 
@@ -18,6 +21,7 @@ public class AuthorMapper {
                 .build();
     }
 
+    @Override
     public Author toEntity(AuthorDto authorDto) {
         if (authorDto == null) return null;
 

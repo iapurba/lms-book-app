@@ -2,10 +2,15 @@ package com.iapurba.bookapp.mapper;
 
 import com.iapurba.bookapp.dto.BookDto;
 import com.iapurba.bookapp.model.entity.Book;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class BookMapper {
-    private final AuthorMapper authorMapper = new AuthorMapper();
+@Component
+public class BookMapper implements Mapper<Book, BookDto> {
+    @Autowired
+    private AuthorMapper authorMapper;
 
+    @Override
     public BookDto toDto(Book book) {
         if (book == null) return null;
 
@@ -22,6 +27,7 @@ public class BookMapper {
                 .build();
     }
 
+    @Override
     public Book toEntity(BookDto bookDto) {
         if (bookDto == null) return null;
 
