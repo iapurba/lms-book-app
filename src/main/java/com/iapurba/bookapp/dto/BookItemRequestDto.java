@@ -16,7 +16,7 @@ public class BookItemRequestDto {
     private Long id;
 
     @NotNull(message = "Book ID is mandatory")
-    private Long bookId;
+    private String bookIsbn;
 
     private String barcode;
     private LocalDate borrowed;

@@ -35,8 +35,8 @@ public class BookItemServiceImpl implements BookItemService {
             bookItem = new BookItem();
         }
 
-        Book book = bookRepository.findById(bookItemDto.getBookId())
-                .orElseThrow(() -> new BookNotFoundException("Book not found with id: " + bookItemDto.getBookId()));
+        Book book = bookRepository.findByIsbn(bookItemDto.getBookIsbn())
+                .orElseThrow(() -> new BookNotFoundException("Book not found with ISBN: " + bookItemDto.getBookIsbn()));
 
         bookItem.setBook(book);
         bookItem.setBarcode(bookItemDto.getBarcode());
@@ -70,4 +70,5 @@ public class BookItemServiceImpl implements BookItemService {
             throw new BookItemNotFoundException("BookItem with id: " + id + " not found");
         }
     }
+
 }
