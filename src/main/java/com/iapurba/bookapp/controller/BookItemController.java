@@ -1,7 +1,7 @@
 package com.iapurba.bookapp.controller;
 
-import com.iapurba.bookapp.dto.BookItemDto;
-import com.iapurba.bookapp.model.entity.BookItem;
+import com.iapurba.bookapp.dto.BookItemRequestDto;
+import com.iapurba.bookapp.dto.BookItemResponseDto;
 import com.iapurba.bookapp.service.BookItemService;
 import com.iapurba.bookapp.util.ResponseWrapper;
 import jakarta.validation.Valid;
@@ -18,23 +18,23 @@ public class BookItemController {
     BookItemService bookItemService;
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<BookItem>> createUpdateBookItem(
-            @Valid @RequestBody BookItemDto bookItemDto) throws Exception {
-        BookItem bookItem = bookItemService.createUpdateBookItem(bookItemDto);
-        String message = (bookItemDto.getId() == null)
+    public ResponseEntity<ResponseWrapper<BookItemResponseDto>> createUpdateBookItem(
+            @Valid @RequestBody BookItemRequestDto requestDto) throws Exception {
+        BookItemResponseDto responseDto = bookItemService.createUpdateBookItem(requestDto);
+        String message = (requestDto.getId() == null)
                 ? "BookItem created successfully"
                 : "BookItem updated successfully";
         return ResponseEntity.ok(
-                new ResponseWrapper<>(HttpStatus.OK.value(), message, bookItem)
+                new ResponseWrapper<>(HttpStatus.OK.value(), message, responseDto)
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<BookItem>> getBookItemById(
+    public ResponseEntity<ResponseWrapper<BookItemResponseDto>> getBookItemById(
             @PathVariable Long id) throws Exception {
-        BookItem bookItem = bookItemService.getBookItemById(id);
+        BookItemResponseDto responseDto = bookItemService.getBookItemById(id);
         return ResponseEntity.ok(new ResponseWrapper<>(
-                HttpStatus.OK.value(), "BookItem retrieved successfully", bookItem));
+                HttpStatus.OK.value(), "BookItem retrieved successfully", responseDto));
     }
 
     @DeleteMapping("/{id}")

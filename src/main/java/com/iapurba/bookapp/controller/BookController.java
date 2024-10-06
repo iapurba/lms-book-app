@@ -18,30 +18,30 @@ public class BookController {
     BookService bookService;
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<Book>> createBook(
+    public ResponseEntity<ResponseWrapper<BookDto>> createBook(
             @Valid @RequestBody BookDto bookDto) throws Exception {
-            Book book = bookService.createBook(bookDto);
+        BookDto book = bookService.createBook(bookDto);
             return ResponseEntity.ok(new ResponseWrapper<>(
                     HttpStatus.OK.value(), "Book created successfully", book
             ));
     };
 
     @GetMapping("/isbn/{isbn}")
-    public ResponseEntity<ResponseWrapper<Book>> getBookByIsbn(
+    public ResponseEntity<ResponseWrapper<BookDto>> getBookByIsbn(
             @PathVariable String isbn) throws Exception {
-            Book book = bookService.getBookByIsbn(isbn);
-            ResponseWrapper<Book> response = new ResponseWrapper<>(
+            BookDto book = bookService.getBookByIsbn(isbn);
+            ResponseWrapper<BookDto> response = new ResponseWrapper<>(
                     HttpStatus.OK.value(), "Book retrieved successfully", book
             );
             return ResponseEntity.ok(response);
     };
 
     @PutMapping("/isbn/{isbn}")
-    public ResponseEntity<ResponseWrapper<Book>> updateBook(
+    public ResponseEntity<ResponseWrapper<BookDto>> updateBook(
             @PathVariable String isbn,
             @Valid @RequestBody BookDto bookDto
     ) throws Exception {
-        Book updatedBook = bookService.updateBook(isbn, bookDto);
+        BookDto updatedBook = bookService.updateBook(isbn, bookDto);
         return ResponseEntity.ok(new ResponseWrapper<>(
                 HttpStatus.OK.value(), "Book updated successfully", updatedBook));
     };
