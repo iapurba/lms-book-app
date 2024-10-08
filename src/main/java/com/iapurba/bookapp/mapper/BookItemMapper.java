@@ -20,7 +20,6 @@ public class BookItemMapper implements RequestMapper<BookItem, BookItemRequestDt
         return BookItemRequestDto.builder()
                 .id(bookItem.getId())
                 .bookIsbn(bookItem.getBook().getIsbn())
-                .barcode(bookItem.getBarcode())
                 .borrowed(bookItem.getBorrowed())
                 .dueDate(bookItem.getDueDate())
                 .price(bookItem.getPrice())
