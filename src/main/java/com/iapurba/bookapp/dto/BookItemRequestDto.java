@@ -15,10 +15,9 @@ import java.time.LocalDate;
 public class BookItemRequestDto {
     private Long id;
 
-    @NotNull(message = "Book ID is mandatory")
+    @NotNull(message = "Book ISBN is mandatory")
     private String bookIsbn;
 
-    private String barcode;
     private LocalDate borrowed;
     private LocalDate dueDate;
 
@@ -32,6 +31,8 @@ public class BookItemRequestDto {
     private BookStatus bookStatus;
 
     private LocalDate purchaseDate;
+
+    @NotNull(message = "Book publication date is mandatory")
     private LocalDate publicationDate;
 
     private Long rackId;

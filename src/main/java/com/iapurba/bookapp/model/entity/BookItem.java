@@ -3,6 +3,7 @@ package com.iapurba.bookapp.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.iapurba.bookapp.model.enums.BookFormat;
 import com.iapurba.bookapp.model.enums.BookStatus;
+import com.iapurba.bookapp.util.BarcodeUtil;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,4 +40,18 @@ public class BookItem implements Serializable {
     private LocalDate publicationDate;
 
     private Long rackId;
+
+    @PrePersist
+    public void generateTempBarcode() {
+        this.barcode = BarcodeUtil.generateBarcode(
+                0L, book.getIsbn(), publicationDate, rackId
+        );
+    }
+
+    @PostPersist
+    public void updateToActualBarcode() {
+        this.barcode = BarcodeUtil.generateBarcode(
+                this.id, book.getIsbn(), publicationDate, rackId
+        );
+    }
 }
