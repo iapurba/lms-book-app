@@ -14,8 +14,9 @@
 	<groupId>com.iapurba</groupId>
 	<artifactId>lms-book-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
 	<name>lms-book-app</name>
-	<description>Demo project for Spring Boot</description>
+	<description>This service handles all operations related to books in the Library Management System.</description>
 
 	<properties>
 		<java.version>17</java.version>
