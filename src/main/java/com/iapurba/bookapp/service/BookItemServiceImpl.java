@@ -39,7 +39,6 @@ public class BookItemServiceImpl implements BookItemService {
                 .orElseThrow(() -> new BookNotFoundException("Book not found with ISBN: " + bookItemDto.getBookIsbn()));
 
         bookItem.setBook(book);
-        bookItem.setBarcode(bookItemDto.getBarcode());
         bookItem.setBorrowed(bookItemDto.getBorrowed());
         bookItem.setDueDate(bookItemDto.getDueDate());
         bookItem.setPrice(bookItemDto.getPrice());
