@@ -2,6 +2,7 @@ package com.iapurba.bookapp.service;
 
 import com.iapurba.bookapp.dto.AuthorDto;
 import com.iapurba.bookapp.dto.BookDto;
+import com.iapurba.bookapp.dto.BookSearchResultDto;
 import com.iapurba.bookapp.exception.AuthorNotFoundException;
 import com.iapurba.bookapp.exception.BookNotFoundException;
 import com.iapurba.bookapp.exception.DuplicateBookException;
@@ -9,6 +10,7 @@ import com.iapurba.bookapp.mapper.BookMapper;
 import com.iapurba.bookapp.model.entity.Author;
 import com.iapurba.bookapp.model.entity.Book;
 import com.iapurba.bookapp.repository.AuthorRepository;
+import com.iapurba.bookapp.repository.BookItemRepository;
 import com.iapurba.bookapp.repository.BookRepository;
 import com.iapurba.bookapp.util.ErrorConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -25,6 +28,9 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     AuthorRepository authorRepository;
+
+    @Autowired
+    BookItemRepository bookItemRepository;
 
     @Autowired
     BookMapper bookMapper;
@@ -93,5 +99,17 @@ public class BookServiceImpl implements BookService {
         book = bookRepository.save(book);
 
         return bookMapper.toDto(book);
+    }
+
+    public List<BookSearchResultDto> searchBooks(String isbn, String title, String author) throws Exception {
+        List<Book> books = bookRepository.searchBooks(isbn, title, author);
+
+        return books.stream().map(book -> {
+            int availableCopies = bookItemRepository.countAvailableBookItems(book.getId());
+            return BookSearchResultDto.builder()
+                    .book(bookMapper.toDto(book))
+                    .availableCopies(availableCopies)
+                    .build();
+        }).collect(Collectors.toList());
     }
 }
